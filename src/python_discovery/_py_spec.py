@@ -50,6 +50,9 @@ def _int_or_none(val: str | None) -> int | None:
 
 def _parse_version_parts(version: str) -> tuple[int | None, int | None, int | None]:
     versions = tuple(int(i) for i in version.split(".") if i)
+    if not versions:
+        msg = "version must contain a numeric component"
+        raise ValueError(msg)
     if len(versions) > _MAX_VERSION_PARTS:
         msg = "too many version parts"
         raise ValueError(msg)
@@ -161,6 +164,8 @@ class PythonSpec:
 
         :param string_spec: an interpreter spec — an absolute path, a version string, an implementation prefix,
             or a `version specifier <https://packaging.python.org/en/latest/specifications/version-specifiers/>`_.
+
+        A version with no numeric components, such as ``python.``, falls back to a literal executable path.
         """
         if pathlib.Path(string_spec).is_absolute():
             return cls(string_spec, None, None, None, None, None, string_spec)
