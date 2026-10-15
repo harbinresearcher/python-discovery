@@ -164,8 +164,6 @@ class PythonSpec:
 
         :param string_spec: an interpreter spec — an absolute path, a version string, an implementation prefix,
             or a `version specifier <https://packaging.python.org/en/latest/specifications/version-specifiers/>`_.
-
-        A version with no numeric components, such as ``python.``, falls back to a literal executable path.
         """
         if pathlib.Path(string_spec).is_absolute():
             return cls(string_spec, None, None, None, None, None, string_spec)

@@ -1,1 +1,2 @@
-Handle dot-only version components without ``IndexError``, preserving the normal executable-path fallback.
+Treat specs with dot-only version components, such as ``python.``, as literal executable paths instead of raising
+``IndexError`` - by :user:`harbinresearcher`.

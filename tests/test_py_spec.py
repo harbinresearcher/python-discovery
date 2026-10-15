@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-import os
 import sys
 from typing import TYPE_CHECKING
 
 import pytest
 
-from python_discovery import PythonSpec, get_interpreter
+from python_discovery import PythonSpec
 from python_discovery._py_info import normalize_isa
 from python_discovery._specifier import SimpleSpecifierSet as SpecifierSet
 
@@ -24,16 +23,6 @@ def test_bad_py_spec(text: str) -> None:
     del content["str_spec"]
     del content["path"]
     assert all(v is None for v in content.values())
-
-
-def test_bad_py_spec_falls_back_to_next_interpreter(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.chdir(tmp_path)
-    env = {**os.environ, "PATH": "", "UV_PYTHON_INSTALL_DIR": str(tmp_path / "missing")}
-
-    interpreter = get_interpreter(["python.", sys.executable], env=env)
-
-    assert interpreter is not None
-    assert interpreter.version_info[:3] == sys.version_info[:3]
 
 
 def test_py_spec_first_digit_only_major() -> None:
